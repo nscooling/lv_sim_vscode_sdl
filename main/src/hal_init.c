@@ -1,6 +1,6 @@
 
 /**
- * @file main
+ * @file hal_init.c
  *
  */
 
@@ -12,12 +12,12 @@
 #include <unistd.h>
 #define SDL_MAIN_HANDLED /*To fix SDL's "undefined reference to WinMain" \
                             issue*/
-// #include <SDL2/SDL.h>
-#include <SDL.h>
 #include "lvgl/lvgl.h"
 #include "lv_drivers/display/monitor.h"
 #include "lv_drivers/indev/mouse.h"
-#include "lv_examples/lv_examples.h"
+
+#include <SDL.h>
+
 
 /*********************
  *      DEFINES
@@ -30,7 +30,6 @@
 /**********************
  *  STATIC PROTOTYPES
  **********************/
-static void hal_init(void);
 static int tick_thread(void *data);
 static void memory_monitor(lv_task_t *param);
 
@@ -47,39 +46,12 @@ lv_indev_t *kb_indev;
  *   GLOBAL FUNCTIONS
  **********************/
 
-int main(int argc, char **argv)
-{
-  (void)argc; /*Unused*/
-  (void)argv; /*Unused*/
-
-  /*Initialize LVGL*/
-  lv_init();
-
-  /*Initialize the HAL (display, input devices, tick) for LVGL*/
-  hal_init();
-
-  lv_demo_widgets();
-//  lv_demo_printer();
-
-  while (1) {
-    /* Periodically call the lv_task handler.
-     * It could be done in a timer interrupt or an OS task too.*/
-    lv_task_handler();
-    usleep(5 * 1000);
-  }
-
-  return 0;
-}
-
-/**********************
- *   STATIC FUNCTIONS
- **********************/
 
 /**
  * Initialize the Hardware Abstraction Layer (HAL) for the Littlev graphics
  * library
  */
-static void hal_init(void) {
+void hal_init(void) {
   /* Use the 'monitor' driver which creates window on PC's monitor to simulate a display*/
   monitor_init();
 
@@ -122,6 +94,10 @@ static void hal_init(void) {
    * periodically.*/
   lv_task_create(memory_monitor, 5000, LV_TASK_PRIO_MID, NULL);
 }
+
+/**********************
+ *   STATIC FUNCTIONS
+ **********************/
 
 /**
  * A task to measure the elapsed time for LVGL
