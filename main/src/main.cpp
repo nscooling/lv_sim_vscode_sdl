@@ -23,8 +23,8 @@ int main()
   /*Initialize the HAL (display, input devices, tick) for LVGL*/
   hal_init();
 
-  // lv_demo_widgets();
- lv_demo_printer();
+  lv_demo_widgets();
+//  lv_demo_printer();
 
   while (1) {
     /* Periodically call the lv_task handler.
