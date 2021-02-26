@@ -26,7 +26,7 @@ add_definitions(
 FILE(GLOB_RECURSE LVGL_Sources lvgl/src/*.c)
 FILE(GLOB_RECURSE LVGL_Drivers_SRC lv_drivers/*.c)
 FILE(GLOB_RECURSE LVGL_Examples lv_examples/*.c)
-FILE(GLOB_RECURSE Main_SRC main/*.c main.cpp)
+FILE(GLOB_RECURSE Main_SRC main/src/*.c main/src/*.cpp)
 
 
 add_executable(lvgl_sim ${Main_SRC} ${LVGL_Sources} ${LVGL_Drivers_SRC} ${LVGL_Examples})
