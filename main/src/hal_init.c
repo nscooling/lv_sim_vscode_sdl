@@ -92,7 +92,7 @@ void hal_init(void) {
   /* Optional:
    * Create a memory monitor task which prints the memory usage in
    * periodically.*/
-  lv_task_create(memory_monitor, 5000, LV_TASK_PRIO_MID, NULL);
+  // lv_task_create(memory_monitor, 5000, LV_TASK_PRIO_MID, NULL);
 }
 
 /**********************
