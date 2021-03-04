@@ -18,6 +18,7 @@ set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${OUTPUT_DIR})
 # include_directories(ui/simulator/inc)
 include_directories(.)
 include_directories(lvgl)
+include_directories(date/includes)
 
 add_definitions(
     -DSIMULATOR=1
@@ -25,9 +26,11 @@ add_definitions(
 
 FILE(GLOB_RECURSE LVGL_Sources lvgl/src/*.c)
 FILE(GLOB_RECURSE LVGL_Drivers_SRC lv_drivers/*.c)
-FILE(GLOB_RECURSE LVGL_Examples lv_examples/*.c)
-FILE(GLOB_RECURSE Main_SRC main/*.c main.cpp)
+# FILE(GLOB_RECURSE LVGL_Examples lv_examples/*.c)
+FILE(GLOB_RECURSE Main_SRC main/*.c main/*.cpp)
+
+# FILE(GLOB_RECURSE Date_Sources date/src/*.cpp)
 
 
-add_executable(lvgl_sim ${Main_SRC} ${LVGL_Sources} ${LVGL_Drivers_SRC} ${LVGL_Examples})
+add_executable(lvgl_sim ${Main_SRC} ${LVGL_Sources} ${LVGL_Drivers_SRC} ${LVGL_Examples} ${Date_Sources}   ./fonts/jetbrains_mono_bold_20.c ./fonts/jetbrains_mono_extrabold_compressed.c main/src/components/Doubles.cpp)
 target_link_libraries(lvgl_sim ${SDL2_LIBRARIES})
