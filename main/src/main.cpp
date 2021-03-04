@@ -9,6 +9,7 @@
  *********************/
 
  #include "Clock.h"
+ #include <iostream>
 
 using namespace Pinetime;
 
@@ -38,6 +39,16 @@ int main()
 
   Applications::DisplayApp displayApp{};
 
+  auto start = std::chrono::system_clock::now();
+  std::time_t t = std::time(0);   // get time now
+  std::tm* now = std::localtime(&t);
+  std::cout << (now->tm_year + 1900) << '-' 
+        << (now->tm_mon + 1) << '-'
+        <<  now->tm_mday
+        << "\n";
+
+//         void SetTime(std::uint16_t year, std::uint8_t month, std::uint8_t day, std::uint8_t dayOfWeek, std::uint8_t hour, std::uint8_t minute, std::uint8_t second, std::uint32_t systickCounter);
+  dateTimeController.SetTime(now->tm_year + 1900, (now->tm_mon + 1), now->tm_mday, 0, 0, 0, 0, 0);
 
   Applications::Screens::Clock display{
     &displayApp,
@@ -48,13 +59,14 @@ int main()
     heartRateController
   };
 
-  display.Refresh();
 
   while (1) {
     /* Periodically call the lv_task handler.
      * It could be done in a timer interrupt or an OS task too.*/
     lv_task_handler();
     usleep(5 * 1000);
+    dateTimeController.UpdateTime(0);
+    display.Refresh();
   }
 
 }
